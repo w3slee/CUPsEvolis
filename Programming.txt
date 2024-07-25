@@ -1,0 +1,165 @@
+---------------------------------------------------------------------------------
+REVERSE ENGINEERING OF THE EVOLIS PRIMACY PRINTER DRIVER AND RIBBON VERIFICATION
+---------------------------------------------------------------------------------
+
+
+
+-------------
+PROJECT GOAL
+-------------
+
+
+---------------------------------
+CONNECTING TO THE SERIAL PROTOCOL
+---------------------------------
+Enabling the serial port ( it's deactivated by default ) using the printer
+command tool
+
+(ESC)Pcom;1;9600;N;1;0;E;R(CR)
+
+
+The default settings for Evolis card printers are typically 9600 baud,
+8 data bits, 1 stop bit, no parity, and hardware flow control.
+
+The command syntax for Evolis card printers is defined as follows:
+
+[*]
+`(Start Character) Command (separator) parameter 1 (separator) parameter n (Stop Character)`
+
+	Start Character: ESC (ASCII code 27)
+	Separator: ; (semicolon)
+	Stop Character: CR (ASCII code 13)
+
+[*]
+Construct the Command: For example, to download a compressed color bitmap, the command would be
+
+(ESC)Dbc;p1;p2;p3;p4;xxxx(CR)
+
+[*]
+p1: Color panel (y for yellow, m for magenta, c for cyan, k for black, o for overlay)
+
+p2: Resolution (2 for 2 levels of gray, 32 for 32 levels of gray, 64 for 64 levels of gray,
+    128 for 128 levels of gray)
+
+p3: Number of bytes to follow
+
+p4: Data to be downloaded
+
+
+---------------------
+ ADJUSTMENT COMMANDS
+---------------------
+Ase: Adjusts the value of the potentiometers to set the current emission.
+
+---------------------
+Downloading Commands
+---------------------
+Db: Downloads a color of a Bitmap.
+Dbc: Downloads a compressed color Bitmap.
+Dbmp: Downloads a logo in the Monochrome Bitmap.
+Dbp: Partially downloads a color Bitmap.
+Dbpc: Partially downloads a compressed color Bitmap.
+
+---------------------
+Motor Commands
+---------------------
+Mc: Runs the Step Motor.
+Mf: Runs the Feeder Motor.
+Mh: Runs the Up and Down Motor.
+Mr: Runs the Ribbon Motor.
+
+---------------------
+Parameter Commands
+---------------------
+Pbm: Sets Monochrome Bitmap Printing Mode.
+Pc: Sets Color Contrast Value.
+Pem: Sets Errors Management.
+Pkn: Sets Print Head Kit Number.
+Pl: Sets Color Luminosity Value.
+Pmi: Sets the card insertion mode.
+Pmk: Sets the speed for card insert/eject.
+Pms: Sets Speed Motor Parameter.
+Pnl: Sets Number of Lines to be printed.
+Pnw: Sets Number of Lines to be printed in Y Orientation.
+Ppk: Sets the monochrome heating mode.
+Ppn: Sets Bi-directional Parallel Mode.
+Pr: Sets Ribbon Type.
+Prm: Sets Ribbon Synchronization Management.
+Pro: Sets Ribbon Offset.
+Prs: Sets Ribbon Size.
+Ps: Sets Printing Speed Parameter.
+Psc: Sets Characters to be used for command definition.
+Psp: Sets start printing position for ½ YMCKO.
+Px: Sets Horizontal Offset Parameter.
+Py: Sets Vertical Offset Parameter.
+Pwb: Sets Monochrome Bitmap.
+Pwcs: Sets the checking text position mode.
+Pwjs: Sets the writing justification mode.
+Pwm: Sets the Printing Mode.
+Pwr: Sets Text Orientation.
+
+---------------------
+Read Commands
+---------------------
+Rbm: Reads selected Monochrome Printing Mode Type.
+Rc: Reads the Contrast Value.
+Rck: Reads Firmware Checksum Value.
+Rco: Reads Counters Values.
+Rcr: Reads Current Ribbon.
+Rem: Reads the Error Management Mode.
+Rfv: Reads Firmware Version.
+Rfn: Reads Resident Font Types.
+Rkn: Reads Print Head Kit Number.
+Rks: Reads Monochrome Shift Parameter.
+Rl: Reads Color Luminosity Value.
+Rlr: Reads Last Answer.
+Rmi: Reads Card Insertion Mode.
+Rmk: Reads Monochrome Printing Speed Mode.
+Rms: Reads Stepper Motor Speed.
+Rnl: Reads Number of Printed Lines.
+Rnw: Reads Number of Printed Lines in Y Orientation.
+Rpk: Reads Monochrome Heating Mode.
+Rpn: Reads Bi-directional Parallel Mode.
+Rps: Reads Sensor Potentiometer values.
+Rr: Reads Ribbon Type.
+Rrm: Reads Ribbon Synchronization Management.
+Rro: Reads the current Ribbon Offset.
+Rrs: Reads Ribbon Size.
+Rs: Reads Speed Parameters.
+Rsc: Reads Characters used for command definition.
+Rse: Reads a Sensor Value.
+Rsn: Reads Printer Serial Number.
+Rsp: Reads Start Printing Position.
+Rtp: Reads the printer Model.
+Rx: Reads Horizontal Offset Value.
+Ry: Reads Vertical Offset Value.
+
+---------------------
+Sequence Commands
+---------------------
+Sa: Self adjusts the printer.
+Sc: Copies.
+Scom: Sequence Transmission through Serial Port.
+Scp: Runs Printer Cleaning Sequence.
+Scs: Sequence Clear Status.
+Sdm: Sequence Delay in Milliseconds.
+Sdu: Sequence Delay in Microseconds.
+Se: Ends a sequence.
+Si: Inserts a card.
+Sib: Inserts a card from back.
+Sp: Prints one panel.
+Sr: Sequence Recto.
+Srs: Sequence Reset Software.
+Ss: Starts a sequence.
+Ssd: Simulates the downloading of one panel.
+St: Prints a Test Card (auto test).
+Stt: Prints a Technical Test Card.
+Sv: Sequence Verso.
+
+---------------------
+Write Commands
+---------------------
+Wb: Writes barcode.
+Wcb: Fills bitmap with data (clear bitmap).
+Wl: Writes Monochrome Line.
+Wt: Writes Monochrome Text.
